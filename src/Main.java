@@ -12,5 +12,38 @@ public class Main {
         Node n;
         n = graph.searchSolution("Arad", "Bucharest", Algorithms.BreadthFirstSearch);
         graph.showSolution(n);
+
+        System.out.println("\nTASK 1 - Comparison between different search algorithms\n");
+        Task1.execute(graph);
+
+    }
+
+    static class Task1 {
+        public static void execute(Graph graph) {
+
+            String[][] testCases = {
+                    {"Arad", "Bucharest"},
+                    {"Bucharest", "Oradea"},
+                    {"Oradea", "Bucharest"},
+                    {"Timisoara", "Neamt"}
+            };
+
+            Algorithms[] algorithms = {
+                    Algorithms.BreadthFirstSearch,
+                    Algorithms.DepthFirstSearch,
+                    Algorithms.UniformCostSearch,
+                    Algorithms.GreedySearch,
+                    Algorithms.AStarSearch
+            };
+
+            for (Algorithms algorithm : algorithms) {
+                System.out.println("\n---" + algorithm + "---\n");
+
+                for (String[] testCase : testCases) {
+                    Node result = graph.searchSolution(testCase[0], testCase[1], algorithm);
+                    graph.showSolution(result);
+                }
+            }
+        }
     }
 }
