@@ -1,5 +1,15 @@
+import searchalgorithm.Algorithms;
+import searchalgorithm.Node;
+import undirectedgraph.Graph;
+import undirectedgraph.Romenia;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Graph graph = Romenia.defineGraph();
+        graph.showLinks();
+        graph.showSets();
+        Node n;
+        n = graph.searchSolution("Arad", "Bucharest", Algorithms.BreadthFirstSearch);
+        graph.showSolution(n);
     }
 }
