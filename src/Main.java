@@ -28,15 +28,7 @@ public class Main {
                     {"Timisoara", "Neamt"}
             };
 
-            Algorithms[] algorithms = {
-                    Algorithms.BreadthFirstSearch,
-                    Algorithms.DepthFirstSearch,
-                    Algorithms.UniformCostSearch,
-                    Algorithms.GreedySearch,
-                    Algorithms.AStarSearch
-            };
-
-            for (Algorithms algorithm : algorithms) {
+            for (Algorithms algorithm : Algorithms.values()) {
                 System.out.println("\n---" + algorithm + "---\n");
 
                 for (String[] testCase : testCases) {
