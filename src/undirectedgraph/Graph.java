@@ -155,9 +155,6 @@ public class Graph {
         repeated += smallGraph.repeated;
         time += smallGraph.time;
         return result;
-
-
-
     }
 
 	public void showSolution(Node n) {
