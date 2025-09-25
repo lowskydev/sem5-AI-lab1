@@ -24,7 +24,7 @@ public class Main {
                     installation();
                     break;
                 case 2:
-                    ComparisonTask.execute();
+                    comparisonTask();
                     break;
                 case 3:
                     mandatoryProvinceTask();
@@ -51,32 +51,34 @@ public class Main {
     }
 
 
-    static class ComparisonTask {
-        public static void execute() {
-            Graph graph = Romenia.defineGraph();
-            graph.showLinks();
-            graph.showSets();
-            System.out.println("\nComparison between different search algorithms\n");
+    public static void comparisonTask() {
+        Graph graph = Romenia.defineGraph();
+        graph.showLinks();
+        graph.showSets();
+        System.out.println("\nComparison between different search algorithms\n");
 
-            String[][] testCases = {
-                    {"Arad", "Bucharest"},
-                    {"Bucharest", "Oradea"},
-                    {"Oradea", "Bucharest"},
-                    {"Timisoara", "Neamt"}
-            };
+        String[][] testCases = {
+            {"Arad", "Bucharest"},
+            {"Bucharest", "Oradea"},
+            {"Oradea", "Bucharest"},
+            {"Timisoara", "Neamt"}
+        };
 
-            for (Algorithms algorithm : Algorithms.values()) {
-                System.out.println("\n---" + algorithm + "---\n");
-                for (String[] testCase : testCases) {
-                    Node result = graph.searchSolution(testCase[0], testCase[1], algorithm);
-                    graph.showSolution(result);
-                }
+        for (Algorithms algorithm : Algorithms.values()) {
+            System.out.println("\n---" + algorithm + "---\n");
+            for (String[] testCase : testCases) {
+                Node result = graph.searchSolution(testCase[0], testCase[1], algorithm);
+                graph.showSolution(result);
             }
-        }
+       }
     }
 
     static void mandatoryProvinceTask() {
-        System.out.println("Problems with mandatory passage through a province not implemented yet.");
+        Graph graph = Romenia.defineGraph();
+
+        System.out.println("\nProblems with mandatory passage through a province\n");
+        Node result = graph.searchSolution("Arad", "Bucharest", Algorithms.AStarSearch, "Dobrogea");
+        graph.showSolution(result);
     }
 
     static void mandatorySequenceTask() {

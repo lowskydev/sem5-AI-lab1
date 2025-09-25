@@ -124,6 +124,42 @@ public class Graph {
 		return n;
 	}
 
+    public Node searchSolution(String initLabel, String goalLabel, Algorithms algId, String province) {
+        Graph smallGraph= new Graph();
+
+        Vertex origin = getVertex(initLabel);
+        Vertex destination = getVertex(goalLabel);
+
+        VertexSet vertexSet = getVertexSet(province);
+
+        smallGraph.addVertex(origin.getLabel(), origin.getLatitude(), origin.getLongitude());
+        smallGraph.addVertex(destination.getLabel(), destination.getLatitude(), destination.getLongitude());
+
+        for (Vertex v : vertexSet.getVertices()) {
+            smallGraph.addVertex(v.getLabel(), v.getLatitude(), v.getLongitude());
+        }
+
+        for (Vertex v: vertexSet.getVertices()) {
+            Node n = searchSolution(initLabel, v.getLabel(), algId);
+            smallGraph.addEdge(initLabel, v.getLabel(), n.getPathCost());
+        }
+
+        for (Vertex v: vertexSet.getVertices()) {
+            Node n = searchSolution(v.getLabel(), goalLabel, algId);
+            smallGraph.addEdge(v.getLabel(), goalLabel, n.getPathCost());
+        }
+        smallGraph.showLinks();
+        Node result = smallGraph.searchSolution(initLabel, goalLabel, algId);
+        expansions += smallGraph.expansions;
+        generated += smallGraph.generated;
+        repeated += smallGraph.repeated;
+        time += smallGraph.time;
+        return result;
+
+
+
+    }
+
 	public void showSolution(Node n) {
 		System.out.println("******************* SOLUTION ********************");
 		System.out.println("Node Expansions: " + this.expansions);
