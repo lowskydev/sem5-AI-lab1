@@ -154,7 +154,7 @@ public class Graph {
 
 		Node result = auxiliaryGraph.searchSolution(origin.getLabel(), destination.getLabel(), algID);
 
-		// get mertrics from n and add them to the current graph
+		// get metrics from auxGraph and add them to the current graph
 		this.expansions += auxiliaryGraph.expansions;
 		this.generated += auxiliaryGraph.generated;
 		this.repeated += auxiliaryGraph.repeated;
