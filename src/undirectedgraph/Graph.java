@@ -155,6 +155,11 @@ public class Graph {
 		return auxiliaryGraph.searchSolution(origin.getLabel(), destination.getLabel(), algID);
 	}
 
+	public Node searchSolutionProvince(String initLabel, String goalLabel, String[] provinceLabel, Algorithms algID) {
+		System.out.println("Overload");
+		return new Node(new State(new Vertex("")));
+	}
+
 	public void showSolution(Node n) {
 		System.out.println("******************* SOLUTION ********************");
 		System.out.println("Node Expansions: " + this.expansions);

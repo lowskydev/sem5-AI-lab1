@@ -8,13 +8,14 @@ import undirectedgraph.VertexSet;
 
 public class Main {
     public static void main(String[] args) {
-        Graph romeniaGraph = Task1.init();
-        Task2.execute(romeniaGraph);
-        Task3.execute(romeniaGraph, "Arad", "Bucharest", "Dobrogea", Algorithms.AStarSearch);
+        Task1.init();
+        Task2.execute();
+        Task3.execute( "Arad", "Bucharest", "Dobrogea", Algorithms.AStarSearch);
+
     }
 
     static class Task1 {
-        public static Graph init() {
+        public static void init() {
             System.out.println("\nTASK 1 - Installation and use of the provided implementation\n");
 
             Graph romeniaGraph = Romenia.defineGraph();
@@ -23,15 +24,15 @@ public class Main {
             Node n;
             n = romeniaGraph.searchSolution("Arad", "Bucharest", Algorithms.BreadthFirstSearch);
             romeniaGraph.showSolution(n);
-
-            return romeniaGraph;
         }
 
     }
 
     static class Task2 {
-        public static void execute(Graph romeniaGraph) {
+        public static void execute() {
             System.out.println("\nTASK 2 - Comparison between different search algorithms\n");
+
+            Graph romeniaGraph = Romenia.defineGraph();
 
             String[][] testCases = {
                     {"Arad", "Bucharest"},
@@ -62,8 +63,11 @@ public class Main {
     }
 
     static class Task3 {
-        public static void execute(Graph romeniaGraph, String origin, String destination, String province, Algorithms algorithm) {
+        public static void execute(String origin, String destination, String province, Algorithms algorithm) {
             System.out.println("\nTASK 3 - Problems with mandatory passage through a province\n");
+
+            Graph romeniaGraph = Romenia.defineGraph();
+
             Node result = romeniaGraph.searchSolutionProvince(origin, destination, province, algorithm);
             romeniaGraph.showSolution(result);
         }
