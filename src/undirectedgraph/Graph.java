@@ -152,7 +152,15 @@ public class Graph {
 			auxiliaryGraph.addEdge(city.getLabel(), destination.getLabel(), n.getPathCost());
 		}
 
-		return auxiliaryGraph.searchSolution(origin.getLabel(), destination.getLabel(), algID);
+		Node result = auxiliaryGraph.searchSolution(origin.getLabel(), destination.getLabel(), algID);
+
+		// get mertrics from n and add them to the current graph
+		this.expansions += auxiliaryGraph.expansions;
+		this.generated += auxiliaryGraph.generated;
+		this.repeated += auxiliaryGraph.repeated;
+		this.time += auxiliaryGraph.time;
+
+		return result;
 	}
 
 	public Node searchSolutionProvince(String initLabel, String goalLabel, String[] provinceLabel, Algorithms algID) {
