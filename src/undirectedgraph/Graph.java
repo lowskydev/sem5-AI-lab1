@@ -124,7 +124,7 @@ public class Graph {
 		return n;
 	}
 
-	public Node searchSolutionProvince(String initLabel, String goalLabel, String provinceLabel, Algorithms algID) {
+	public Node searchSolution(String initLabel, String goalLabel, String provinceLabel, Algorithms algID) {
 		Graph auxiliaryGraph = new Graph();
 
 		Vertex origin = getVertex(initLabel);
@@ -163,7 +163,7 @@ public class Graph {
 		return result;
 	}
 
-	public Node searchSolutionProvince(String initLabel, String goalLabel, String[] provinceLabel, Algorithms algID) {
+	public Node searchSolution(String initLabel, String goalLabel, String[] provinceLabel, Algorithms algID) {
 		System.out.println("Overload");
 		return new Node(new State(new Vertex("")));
 	}

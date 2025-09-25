@@ -11,7 +11,7 @@ public class Main {
         Task1.init();
         Task2.execute();
         Task3.execute( "Arad", "Bucharest", "Dobrogea", Algorithms.AStarSearch);
-
+        Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch);
     }
 
     static class Task1 {
@@ -68,8 +68,17 @@ public class Main {
 
             Graph romeniaGraph = Romenia.defineGraph();
 
-            Node result = romeniaGraph.searchSolutionProvince(origin, destination, province, algorithm);
+            Node result = romeniaGraph.searchSolution(origin, destination, province, algorithm);
             romeniaGraph.showSolution(result);
+        }
+    }
+
+    static class Task4 {
+        public static void execute (String origin, String destination, String[] provinces, Algorithms algorithm) {
+            System.out.println("\nTASK 4 - Problems with mandatory passage through multiple provinces\n");
+
+            Graph romeniaGraph = Romenia.defineGraph();
+            Node result = romeniaGraph.searchSolution(origin, destination, provinces, algorithm);
         }
     }
 }
