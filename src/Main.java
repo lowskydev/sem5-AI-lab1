@@ -79,6 +79,7 @@ public class Main {
 
             Graph romeniaGraph = Romenia.defineGraph();
             Node result = romeniaGraph.searchSolution(origin, destination, provinces, algorithm);
+            romeniaGraph.showSolution(result);
         }
     }
 }
