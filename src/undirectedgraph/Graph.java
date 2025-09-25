@@ -124,6 +124,37 @@ public class Graph {
 		return n;
 	}
 
+	public Node searchSolutionProvince(String initLabel, String goalLabel, String provinceLabel, Algorithms algID) {
+		Graph auxiliaryGraph = new Graph();
+
+		Vertex origin = getVertex(initLabel);
+		Vertex destination = getVertex(goalLabel);
+
+		// add origin and destination to the graph
+		auxiliaryGraph.addVertex(origin.getLabel(), origin.getLatitude(), origin.getLongitude());
+		auxiliaryGraph.addVertex(destination.getLabel(), destination.getLatitude(), destination.getLongitude());
+
+		// get all the cities in the province
+		VertexSet province = getVertexSet(provinceLabel);
+		for (Vertex city: province.getVertices()) {
+			auxiliaryGraph.addVertex(city.getLabel(), city.getLatitude(), city.getLongitude());
+		}
+
+		// add edge from origin to province cities with appropriate cost
+		for (Vertex city: province.getVertices()) {
+			Node n = searchSolution(origin.getLabel(), city.getLabel(), algID);
+			auxiliaryGraph.addEdge(origin.getLabel(), city.getLabel(), n.getPathCost());
+		}
+
+		// add edge from province to destination cities with appropriate cost
+		for (Vertex city: province.getVertices()) {
+			Node n = searchSolution(city.getLabel(), destination.getLabel(), algID);
+			auxiliaryGraph.addEdge(city.getLabel(), destination.getLabel(), n.getPathCost());
+		}
+
+		return auxiliaryGraph.searchSolution(origin.getLabel(), destination.getLabel(), algID);
+	}
+
 	public void showSolution(Node n) {
 		System.out.println("******************* SOLUTION ********************");
 		System.out.println("Node Expansions: " + this.expansions);
