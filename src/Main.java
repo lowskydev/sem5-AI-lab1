@@ -6,12 +6,172 @@ import undirectedgraph.Romenia;
 import undirectedgraph.Vertex;
 import undirectedgraph.VertexSet;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        Task1.init();
-        Task2.execute();
-        Task3.execute( "Arad", "Bucharest", "Dobrogea", Algorithms.AStarSearch);
-        Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch);
+        defaultValues dv = new defaultValues();
+
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("\nSelect a task to execute:");
+            System.out.println("  1) Task 1 - Installation and use of the provided implementation");
+            System.out.println("  2) Task 2 - Comparison between different search algorithms");
+            System.out.println("  3) Task 3 - Problems with mandatory passage through a province");
+            System.out.println("  4) Task 4 - Problems with mandatory passage through a sequence of provinces");
+            System.out.println("  5) Run all with defaults");
+            System.out.print("[1-5]: ");
+            int taskChoice = scanner.nextInt();
+
+            switch (taskChoice) {
+                case 1 -> {
+                    Task1.init();
+                }
+                case 2 -> {
+                    Task2.execute();
+                }
+                case 3 -> {
+                    System.out.println("\tSelect option:");
+                    System.out.println("\t  1) Default arguments");
+                    System.out.println("\t  2) Custom arguments");
+                    System.out.print("\t[1-2]: ");
+
+                    int argChoice = scanner.nextInt();
+                    scanner.nextLine(); // consume newline
+
+                    switch (argChoice) {
+                        case 1 -> {
+                            Task3.execute( "Arad", "Bucharest", "Dobrogea", Algorithms.AStarSearch);
+                        }
+                        case 2 -> {
+                            System.out.println("\t\tEnter arguments:");
+                            System.out.print("\t\t[originCity] [destinationCity] [province]: ");
+
+                            String argumentsInput = scanner.nextLine();
+                            String[] arguments = argumentsInput.split(" ");
+
+                            if (arguments.length < 3) {
+                                System.out.println("Not enough arguments provided");
+                            } else  {
+                                String origin = arguments[0];
+                                String destination = arguments[1];
+                                String province = arguments[2];
+
+                                System.out.println("\t\tSelect algorithm:");
+                                System.out.println("\t\t  1) Breadth First Search");
+                                System.out.println("\t\t  2) Depth First Search");
+                                System.out.println("\t\t  3) Uniform Cost Search");
+                                System.out.println("\t\t  4) Greedy Search");
+                                System.out.println("\t\t  5) A* Search");
+                                System.out.print("\t\t[1-5]: ");
+
+                                int algChoice = scanner.nextInt();
+                                Algorithms algorithm;
+
+                                switch (algChoice) {
+                                    case 1 -> algorithm = Algorithms.BreadthFirstSearch;
+                                    case 2 -> algorithm = Algorithms.DepthFirstSearch;
+                                    case 3 -> algorithm = Algorithms.UniformCostSearch;
+                                    case 4 -> algorithm = Algorithms.GreedySearch;
+                                    case 5 -> algorithm = Algorithms.AStarSearch;
+                                    default -> {
+                                        System.out.println("Invalid option. Using default A* Search.");
+                                        algorithm = Algorithms.AStarSearch;
+                                    }
+                                }
+
+                                Task3.execute(origin, destination, province, algorithm);
+                            }
+
+
+
+                        }
+                    }
+
+                }
+                case 4 -> {
+                    System.out.println("\tSelect option:");
+                    System.out.println("\t  1) Default arguments");
+                    System.out.println("\t  2) Custom arguments");
+                    System.out.print("\t[1-2]: ");
+
+                    int argChoice = scanner.nextInt();
+                    scanner.nextLine(); // consume newline
+
+                    switch (argChoice) {
+                        case 1 -> {
+                            Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch);
+                        }
+                        case 2 -> {
+                            System.out.println("\t\tEnter arguments:");
+                            System.out.print("\t\t[originCity] [destinationCity] [province1,province2,...]: ");
+
+                            String argumentsInput = scanner.nextLine();
+                            String[] arguments = argumentsInput.split(" ");
+
+                            if (arguments.length < 3) {
+                                System.out.println("Not enough arguments provided");
+                            } else  {
+                                String origin = arguments[0];
+                                String destination = arguments[1];
+                                String[] provinces = arguments[2].split(",");
+
+                                System.out.println("\t\tSelect algorithm:");
+                                System.out.println("\t\t  1) Breadth First Search");
+                                System.out.println("\t\t  2) Depth First Search");
+                                System.out.println("\t\t  3) Uniform Cost Search");
+                                System.out.println("\t\t  4) Greedy Search");
+                                System.out.println("\t\t  5) A* Search");
+                                System.out.print("\t\t[1-5]: ");
+
+                                int algChoice = scanner.nextInt();
+                                Algorithms algorithm;
+
+                                switch (algChoice) {
+                                    case 1 -> algorithm = Algorithms.BreadthFirstSearch;
+                                    case 2 -> algorithm = Algorithms.DepthFirstSearch;
+                                    case 3 -> algorithm = Algorithms.UniformCostSearch;
+                                    case 4 -> algorithm = Algorithms.GreedySearch;
+                                    case 5 -> algorithm = Algorithms.AStarSearch;
+                                    default -> {
+                                        System.out.println("Invalid option. Using default A* Search.");
+                                        algorithm = Algorithms.AStarSearch;
+                                    }
+                                }
+
+                                Task4.execute(origin, destination, provinces, algorithm);
+                            }
+                        }
+                    }
+
+                    Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch);
+                }
+                case 5 -> {
+                    Task1.init();
+                    Task2.execute();
+                    Task3.execute( "Arad", "Bucharest", "Dobrogea", Algorithms.AStarSearch);
+                    Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch);
+                }
+                default -> System.out.println("Invalid option.");
+            }
+        }
+
+    }
+
+    public static class defaultValues {
+        private final HashMap<String, Object[]> defaults = new HashMap<>();
+
+        defaultValues() {
+            defaults.put("Task3", new Object[]{"Arad", "Bucharest", "Dobrogea", Algorithms.AStarSearch});
+            defaults.put("Task4", new Object[]{"Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch});
+        }
+
+        public Object[] get(String task) {
+            return defaults.get(task);
+        }
     }
 
     static class Task1 {
