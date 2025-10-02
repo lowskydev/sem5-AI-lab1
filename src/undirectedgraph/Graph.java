@@ -164,8 +164,56 @@ public class Graph {
 	}
 
 	public Node searchSolution(String initLabel, String goalLabel, String[] provinceLabel, Algorithms algID) {
-		System.out.println("Overload");
-		return new Node(new State(new Vertex("")));
+		Graph auxiliaryGraph = new Graph();
+
+		Vertex origin = getVertex(initLabel);
+		Vertex destination = getVertex(goalLabel);
+
+		// add origin and destination to the graph
+		auxiliaryGraph.addVertex(origin.getLabel(), origin.getLatitude(), origin.getLongitude());
+		auxiliaryGraph.addVertex(destination.getLabel(), destination.getLatitude(), destination.getLongitude());
+
+		// add provinces to the graph
+		for (String province: provinceLabel) {
+			VertexSet provinceSet = getVertexSet(province);
+			for (Vertex city: provinceSet.getVertices()) {
+				auxiliaryGraph.addVertex(city.getLabel(), city.getLatitude(), city.getLongitude());
+			}
+		}
+
+		// add edge from origin to first province cities with appropriate cost
+		VertexSet firstProvince = getVertexSet(provinceLabel[0]);
+		for (Vertex city: firstProvince.getVertices()) {
+			Node n = searchSolution(origin.getLabel(), city.getLabel(), algID);
+			auxiliaryGraph.addEdge(origin.getLabel(), city.getLabel(), n.getPathCost());
+		}
+
+		// add edges between provinces
+		for (int i = 0; i < provinceLabel.length - 1; i++) {
+			VertexSet currentProvince = getVertexSet(provinceLabel[i]);
+			VertexSet nextProvince = getVertexSet(provinceLabel[i + 1]);
+			for (Vertex cityCurrent: currentProvince.getVertices()) {
+				for (Vertex cityNext: nextProvince.getVertices()) {
+					Node n = searchSolution(cityCurrent.getLabel(), cityNext.getLabel(), algID);
+					auxiliaryGraph.addEdge(cityCurrent.getLabel(), cityNext.getLabel(), n.getPathCost());
+				}
+			}
+		}
+
+		// add edge from last province to destination cities with appropriate cost
+		VertexSet lastProvince = getVertexSet(provinceLabel[provinceLabel.length - 1]);
+		for (Vertex city: lastProvince.getVertices()) {
+			Node n = searchSolution(city.getLabel(), destination.getLabel(), algID);
+			auxiliaryGraph.addEdge(city.getLabel(), destination.getLabel(), n.getPathCost());
+		}
+		Node result = auxiliaryGraph.searchSolution(origin.getLabel(), destination.getLabel(), algID);
+
+		// get metrics from auxGraph and add them to the current graph
+		this.expansions += auxiliaryGraph.expansions;
+		this.generated += auxiliaryGraph.generated;
+		this.repeated += auxiliaryGraph.repeated;
+		this.time += auxiliaryGraph.time;
+		return result;
 	}
 
 	public void showSolution(Node n) {

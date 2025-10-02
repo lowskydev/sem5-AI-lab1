@@ -94,7 +94,7 @@ public class Main {
                     Task1.init();
                     Task2.execute();
                     Task3.execute( "Arad", "Bucharest", "Dobrogea", Algorithms.AStarSearch);
-                    Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch);
+                    Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "Banat"}, Algorithms.AStarSearch);
                 }
                 default -> System.out.println("Invalid option.");
             }
