@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        defaultValues dv = new defaultValues();
 
         while (true) {
             Scanner scanner = new Scanner(System.in);
@@ -43,55 +42,25 @@ public class Main {
                     scanner.nextLine(); // consume newline
 
                     switch (argChoice) {
-                        case 1 -> {
-                            Task3.execute( "Arad", "Bucharest", "Dobrogea", Algorithms.AStarSearch);
-                        }
+                        case 1 -> Task3.execute("Arad", "Bucharest", "Dobrogea", Algorithms.AStarSearch);
                         case 2 -> {
-                            System.out.println("\t\tEnter arguments:");
                             System.out.print("\t\t[originCity] [destinationCity] [province]: ");
-
-                            String argumentsInput = scanner.nextLine();
-                            String[] arguments = argumentsInput.split(" ");
+                            String[] arguments = scanner.nextLine().split(" ");
 
                             if (arguments.length < 3) {
                                 System.out.println("Not enough arguments provided");
-                            } else  {
+                            } else {
                                 String origin = arguments[0];
                                 String destination = arguments[1];
                                 String province = arguments[2];
 
-                                System.out.println("\t\tSelect algorithm:");
-                                System.out.println("\t\t  1) Breadth First Search");
-                                System.out.println("\t\t  2) Depth First Search");
-                                System.out.println("\t\t  3) Uniform Cost Search");
-                                System.out.println("\t\t  4) Greedy Search");
-                                System.out.println("\t\t  5) A* Search");
-                                System.out.print("\t\t[1-5]: ");
-
-                                int algChoice = scanner.nextInt();
-                                Algorithms algorithm;
-
-                                switch (algChoice) {
-                                    case 1 -> algorithm = Algorithms.BreadthFirstSearch;
-                                    case 2 -> algorithm = Algorithms.DepthFirstSearch;
-                                    case 3 -> algorithm = Algorithms.UniformCostSearch;
-                                    case 4 -> algorithm = Algorithms.GreedySearch;
-                                    case 5 -> algorithm = Algorithms.AStarSearch;
-                                    default -> {
-                                        System.out.println("Invalid option. Using default A* Search.");
-                                        algorithm = Algorithms.AStarSearch;
-                                    }
-                                }
-
+                                Algorithms algorithm = selectAlgorithm(scanner);
                                 Task3.execute(origin, destination, province, algorithm);
                             }
-
-
-
                         }
                     }
-
                 }
+
                 case 4 -> {
                     System.out.println("\tSelect option:");
                     System.out.println("\t  1) Default arguments");
@@ -102,53 +71,25 @@ public class Main {
                     scanner.nextLine(); // consume newline
 
                     switch (argChoice) {
-                        case 1 -> {
-                            Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch);
-                        }
+                        case 1 -> Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch);
                         case 2 -> {
-                            System.out.println("\t\tEnter arguments:");
                             System.out.print("\t\t[originCity] [destinationCity] [province1,province2,...]: ");
-
-                            String argumentsInput = scanner.nextLine();
-                            String[] arguments = argumentsInput.split(" ");
+                            String[] arguments = scanner.nextLine().split(" ");
 
                             if (arguments.length < 3) {
                                 System.out.println("Not enough arguments provided");
-                            } else  {
+                            } else {
                                 String origin = arguments[0];
                                 String destination = arguments[1];
                                 String[] provinces = arguments[2].split(",");
 
-                                System.out.println("\t\tSelect algorithm:");
-                                System.out.println("\t\t  1) Breadth First Search");
-                                System.out.println("\t\t  2) Depth First Search");
-                                System.out.println("\t\t  3) Uniform Cost Search");
-                                System.out.println("\t\t  4) Greedy Search");
-                                System.out.println("\t\t  5) A* Search");
-                                System.out.print("\t\t[1-5]: ");
-
-                                int algChoice = scanner.nextInt();
-                                Algorithms algorithm;
-
-                                switch (algChoice) {
-                                    case 1 -> algorithm = Algorithms.BreadthFirstSearch;
-                                    case 2 -> algorithm = Algorithms.DepthFirstSearch;
-                                    case 3 -> algorithm = Algorithms.UniformCostSearch;
-                                    case 4 -> algorithm = Algorithms.GreedySearch;
-                                    case 5 -> algorithm = Algorithms.AStarSearch;
-                                    default -> {
-                                        System.out.println("Invalid option. Using default A* Search.");
-                                        algorithm = Algorithms.AStarSearch;
-                                    }
-                                }
-
+                                Algorithms algorithm = selectAlgorithm(scanner);
                                 Task4.execute(origin, destination, provinces, algorithm);
                             }
                         }
                     }
-
-                    Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch);
                 }
+
                 case 5 -> {
                     Task1.init();
                     Task2.execute();
@@ -159,19 +100,6 @@ public class Main {
             }
         }
 
-    }
-
-    public static class defaultValues {
-        private final HashMap<String, Object[]> defaults = new HashMap<>();
-
-        defaultValues() {
-            defaults.put("Task3", new Object[]{"Arad", "Bucharest", "Dobrogea", Algorithms.AStarSearch});
-            defaults.put("Task4", new Object[]{"Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch});
-        }
-
-        public Object[] get(String task) {
-            return defaults.get(task);
-        }
     }
 
     static class Task1 {
@@ -241,5 +169,30 @@ public class Main {
             Node result = romeniaGraph.searchSolution(origin, destination, provinces, algorithm);
             romeniaGraph.showSolution(result);
         }
+    }
+
+    private static Algorithms selectAlgorithm(Scanner scanner) {
+        System.out.println("\t\tSelect algorithm:");
+        System.out.println("\t\t  1) Breadth First Search");
+        System.out.println("\t\t  2) Depth First Search");
+        System.out.println("\t\t  3) Uniform Cost Search");
+        System.out.println("\t\t  4) Greedy Search");
+        System.out.println("\t\t  5) A* Search");
+        System.out.print("\t\t[1-5]: ");
+
+        int algChoice = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+
+        return switch (algChoice) {
+            case 1 -> Algorithms.BreadthFirstSearch;
+            case 2 -> Algorithms.DepthFirstSearch;
+            case 3 -> Algorithms.UniformCostSearch;
+            case 4 -> Algorithms.GreedySearch;
+            case 5 -> Algorithms.AStarSearch;
+            default -> {
+                System.out.println("Invalid option. Using default A* Search.");
+                yield Algorithms.AStarSearch;
+            }
+        };
     }
 }
