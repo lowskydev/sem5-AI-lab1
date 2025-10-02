@@ -71,7 +71,7 @@ public class Main {
                     scanner.nextLine(); // consume newline
 
                     switch (argChoice) {
-                        case 1 -> Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "d"}, Algorithms.AStarSearch);
+                        case 1 -> Task4.execute("Arad", "Bucharest", new String[]{"Dobrogea", "Banat"}, Algorithms.AStarSearch);
                         case 2 -> {
                             System.out.print("\t\t[originCity] [destinationCity] [province1,province2,...]: ");
                             String[] arguments = scanner.nextLine().split(" ");
