@@ -4,4 +4,4 @@ This project was developed for the **Artificial Intelligence** course. It explor
 
 ## Authors 
 - Wiktor Szydłowski
-- - Valerii Matviiv
+- Valerii Matviiv
